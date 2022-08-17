@@ -58,6 +58,19 @@ class UsersController extends Controller
      */
     public function show($id)
     {
+        $user = User::where('id', $id)->first();
+
+        if ($user) {
+            return response([
+                "status"    =>  "success",
+                "data"      =>  $user
+            ]);
+        } else {
+            return response([
+                "status"    =>  "error",
+                "message"   =>  "ID ile eşleşen kullanıcı bulunamadı"
+            ]);
+        }
     }
 
     /**
