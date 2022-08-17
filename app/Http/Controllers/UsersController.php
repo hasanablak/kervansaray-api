@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Http\Middleware\BasicTokenMiddleware;
+use Illuminate\Support\Facades\Auth;
 
 class UsersController extends Controller
 {
@@ -82,7 +83,17 @@ class UsersController extends Controller
      */
     public function update(Request $request, $id)
     {
+        if (Auth()->id() != $id) {
+            return response([
+                "status"    =>  "error",
+                "message"   =>  "Güncellemeye çalıştığınız kullanıcı(ID: $id) ile token'ın sahip kullanıcısı aynı değil"
+            ]);
+        }
+
         try {
+
+            unset($request["_method"]);
+
             User::where('id', $id)->update($request->all());
 
             return response([

@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use App\Models\UserToken;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 
 class BasicTokenMiddleware
 {
@@ -34,7 +34,7 @@ class BasicTokenMiddleware
             ], 401);
         }
 
-        Auth::loginUsingId($userToken->users_id);
+        Auth::loginUsingId($userToken->usersQid);
 
         return $next($request);
     }
