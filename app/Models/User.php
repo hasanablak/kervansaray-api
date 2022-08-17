@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 
 class User extends Authenticatable
 {
@@ -16,16 +18,17 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $primaryKey = 'ID';
+    protected $table = 'users';
     protected $fillable = [
         'name',
+        'surname',
         'email',
         'password',
+        'tcno',
+        'address',
+        'gsm'
     ];
 
-    const CREATED_AT = 'EKLENME_TARIHI';
-
-    const UPDATED_AT = 'GUNCELLEME_TARIHI';
     /**
      * The attributes that should be hidden for serialization.
      *
@@ -44,4 +47,13 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+
+    protected function password(): Attribute
+    {
+        return new Attribute(
+            //get: fn($value) => "",
+            set: fn ($value) => Hash::make($value)
+        );
+    }
 }

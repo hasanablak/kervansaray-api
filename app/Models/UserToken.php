@@ -9,4 +9,9 @@ class UserToken extends Model
 {
     use HasFactory;
     public $table = 'users_token';
+
+    protected $fillable =  [
+        "usersQid",
+        "token"
+    ];
 }
