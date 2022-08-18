@@ -78,26 +78,21 @@ class UsersController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  int  $id // token şimdilik
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        if (Auth()->id() != $id) {
-            return response([
-                "status"    =>  "error",
-                "message"   =>  "Güncellemeye çalıştığınız kullanıcı(ID: $id) ile token'ın sahip kullanıcısı aynı değil"
-            ]);
-        }
 
         try {
 
             unset($request["_method"]);
 
-            User::where('id', $id)->update($request->all());
+            User::where('id', Auth()->id())->update($request->all());
 
             return response([
-                "status"    =>  "success"
+                "status"    =>  "success",
+                "data"      => User::where('id', Auth()->id())->first()
             ]);
         } catch (\Exception $e) {
             return response([
