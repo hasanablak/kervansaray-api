@@ -26,7 +26,8 @@ class AuthController extends Controller
 
             return response([
                 "status"    =>  "success",
-                "token"     =>  $token->token
+                "token"     =>  $token->token,
+                "id"        =>  $userId->id
             ]);
         } else {
             return response([
